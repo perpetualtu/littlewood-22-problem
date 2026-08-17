@@ -1,8 +1,8 @@
 # Littlewood's 22nd Problem: Progress and Order Conjecture as of 2026-08-17
 
 > **Status: No resolution found.**  
-> Below are only published upper and lower bounds, a reproducible finite numerical experiment placeholder, and explicitly marked conjectures; no new asymptotic theorems are claimed.
-
+> Below are published upper and lower bounds, a new candidate asymptotic upper bound obtained.
+> <span style="color:red">Not peer-reviewed by domain experts. Validated solely via GPT and Claude; Lean formal verification was not performed due to quota limitations.</span> 
 ---
 
 ## Table of Contents
