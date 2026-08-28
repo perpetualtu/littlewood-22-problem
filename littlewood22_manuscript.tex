@@ -1,0 +1,934 @@
+\documentclass[11pt,reqno]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1.1in]{geometry}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Unif}{Unif}
+
+\title{An improved upper bound for Littlewood's problem on zeros of cosine polynomials}
+\author{Hu yuanshan}
+\date{\today}
+
+\begin{document}
+
+\begin{abstract}
+For a finite set $A\subset\mathbb{Z}_{\ge 0}$ of size $N$, let $F_A(x)=\sum_{a\in A}\cos(ax)$ and let $Z(N)$ denote the minimum, over all such $A$, of the number of distinct zeros of $F_A$ in $[0,2\pi)$. Determining the order of $Z(N)$ is Littlewood's problem on the least number of zeros of a cosine polynomial. The best known upper bound, due to Konyagin and to Ju\v{s}kevi\v{c}ius and Sahasrabudhe, is $Z(N)\ll N^{2/3}(\log N)^{2/3}$. We prove that for all sufficiently large $N$,
+\[
+Z(N)\ll N^{2/3}(\log N)^{1/3},
+\]
+improving the logarithmic factor by $(\log N)^{1/3}$. The construction realises $F_A$ as $D_n-g$ for a random $0/1$ cosine polynomial $g$ built from independently placed contiguous frequency blocks; non-resonant phase averaging and a weighted Littlewood--Offord inequality force the small-band set where $|D_n-g|$ can vanish to have expected measure $\ll\sqrt{(\log m)/m}$, while a deterministic argument bounds the zeros of $D_n-g$ in terms of that measure.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+\subsection*{The problem}
+For a finite set $A\subset\mathbb{Z}_{\ge 0}$ write
+\[
+F_A(x)=\sum_{a\in A}\cos(ax),\qquad x\in[0,2\pi),
+\]
+a real cosine polynomial with $0/1$ coefficients. For a cosine polynomial $f$ let $Z(f)$ denote the number of distinct zeros of $f$ in $[0,2\pi)$, each zero counted once as a point of the circle irrespective of its multiplicity, and set
+\[
+Z(N)=\min_{\lvert A\rvert=N} Z(F_A).
+\]
+The question of how small $Z(N)$ can be is Littlewood's problem on the least number of real zeros of a cosine polynomial with a prescribed number of terms (Problem~22 in his list). The boundary cases are $Z(1)=0$ and $Z(2)=1$, while any nonzero cosine polynomial of degree $d$ has at most $2d$ zeros per period; the difficulty lies entirely in the lower range, where one seeks sets $A$ whose cosine polynomial oscillates as little as possible while carrying $N$ frequencies. The problem sits at the interface of harmonic analysis and combinatorics: the frequencies of $A$ are unrestricted in size, so extremal configurations must exploit arithmetic structure rather than degree.
+
+\subsection*{Previous work}
+In 2008, Borwein, Erd\'elyi, Ferguson and Lockhart disproved Littlewood's near-linear suggestion by constructing examples with $O(N^{5/6}\log N)$ zeros~\cite{BEFL}. The qualitative assertion $Z(N)\to\infty$ was later proved independently by Erd\'elyi~\cite{ErdelyiQual} and Sahasrabudhe~\cite{Sahasrabudhe}. The latter obtained the quantitative lower bound $(\log\log\log N)^{1/2-o(1)}$, which Erd\'elyi subsequently improved to $(\log\log\log N)^{1-o(1)}$~\cite{ErdelyiImproved}. On the upper side, the sharpest bound prior to the present work is
+\[
+Z(N)\ll N^{2/3}(\log N)^{2/3},
+\]
+proved by Konyagin~\cite{Konyagin} and, independently and by a different route, by Ju\v{s}kevi\v{c}ius and Sahasrabudhe~\cite{JS}. In the opposite direction, Bedert's current lower bound is
+\[
+Z(N)\gg \frac{\log\log N}{\log\log\log N}
+       =(\log\log N)^{1-o(1)}
+\]
+for sufficiently large $N$~\cite{lower}, so the true order of $Z(N)$ is not yet known even up to a power of $N$. Our contribution lies on the upper side.
+
+\subsection*{Main result}
+\begin{theorem}\label{thm:main}
+For all sufficiently large $N$,
+\[
+Z(N)\ll N^{2/3}(\log N)^{1/3}.
+\]
+\end{theorem}
+This improves the logarithmic factor in the previously known upper bound by $(\log N)^{1/3}$; the power $N^{2/3}$ is unchanged. The set $A$ realising the bound is obtained probabilistically: an averaging argument yields a suitable $0/1$ cosine polynomial $g$, and $A$ is then the frequency support of $D_n-g$, where $D_n(x)=\sum_{k=0}^{n}\cos(kx)$ is the Dirichlet kernel.
+
+\subsection*{Strategy of the proof}
+The proof rests on two independent components, one probabilistic and one deterministic, joined through the small-band set. Write $D_n(x)=\tfrac12+\sin(Mx)/(2\sin(x/2))$ with $M=n+\tfrac12$, and for a $0/1$ cosine polynomial $g$ of degree at most $m<n$ put $h(x)=2\sin(x/2)\bigl(g(x)-\tfrac12\bigr)$. Then $D_n(x)-g(x)=0$ is equivalent to $\sin(Mx)=h(x)$, and the zeros of $D_n-g$ can occur only on the \emph{small-band set}
+\[
+E(g)=\{x\in(0,\pi): \lvert h(x)\rvert\le 1\},
+\]
+where the graph of $h$ meets the strip in which $\sin(Mx)$ takes its values.
+
+The first component (Innovation~A) constructs a random $g$ for which $E(g)$ is typically very thin. We partition the frequency axis into $q$ boxes of length $4L$ and, in each box independently, select a contiguous block $I_j$ of a random length $R_j\in\{L,\dots,2L-1\}$ at a random offset $U_j\in\{0,\dots,L-1\}$, retaining the block with an independent fair coin $\eta_j$. The exact evaluation of a block sum shows that its size is governed by the scale $A_L(x)=\min\{L,1/\sin(x/2)\}$. Away from a thin resonance layer $R=\{x:\lvert\sin(4Lx)\rvert\le D/q\}$, a non-resonant phase average forces a positive proportion of the box phases to be well separated from the axis; combined with a length--energy estimate for the block lengths, this yields a fixed positive proportion of triples $(j,u,r)$ whose blocks are of order $A_L(x)$, and hence, with probability $1-e^{-cq}$, a linear number $\gg q$ of retained blocks with coefficient of size $\gg A_L(x)$. For such an $x$, the event $x\in E(g)$ reads $\lvert\sum_j\eta_j b_j(x)-\tfrac12\rvert\le 1/(2\sin(x/2))$, an anti-concentration event for a signed sum with $\gg q$ weights of size $\gg A_L(x)$. A weighted Littlewood--Offord inequality with an arbitrary centre, applied after conditioning on the box geometry, bounds its probability by $\ll(1+w/a)/\sqrt{q}$. Integrating the resulting pointwise bounds in $x$ — the resonance layer contributing $O(1/q)$, and the range $0<x\le 1/L$ contributing $\int_{(L\sqrt q)^{-1}}^{1/L}dx/(xL\sqrt q)\ll(\log\sqrt q)/(L\sqrt q)$ through the small-$x$ ratio $w/a\asymp 1/(Lx)$ — gives $\mathbb{E}\lvert E(g)\rvert\ll 1/q+(\log q)/(L\sqrt q)+1/\sqrt q$. With $q\asymp m/L$ and $L\asymp\log m$ this is $\ll\sqrt{(\log m)/m}$, and the averaging principle produces a single deterministic $g$ attaining the bound.
+
+The second component (Innovation~B) is a deterministic estimate for the number of zeros of $D_n-g$ in terms of $\lvert E(g)\rvert$ alone:
+\[
+Z(D_n-g)\ll n\lvert E(g)\rvert + m.
+\]
+On $E(g)$ one sets $\alpha(x)=\arcsin h(x)$, so that $\sin(Mx)=h(x)$ is equivalent to $Mx-\alpha(x)\in 2\pi\mathbb{Z}$ or $Mx+\alpha(x)\in(2\mathbb{Z}+1)\pi$. Each phase $\psi_\pm=Mx\pm\alpha$ is treated on the intervals of monotonicity determined by the zeros of the auxiliary polynomial $P=M^2(1-h^2)-(h')^2$, which controls the interior critical points of both phases and which, by $\lvert h'(0)\rvert\le m+\tfrac12<M$ (here the hypothesis $n>m$ is used), is not identically zero and has $O(m)$ zeros. A strictly monotone phase meets a lattice of spacing $2\pi$ at most $1+\mathrm{Var}/(2\pi)$ times, and the total variation of $\psi_\pm$ over $E(g)$ is $\le M\lvert E(g)\rvert+\mathrm{Var}(\alpha)$ with $\mathrm{Var}(\alpha)=O(m)$; summing over the $O(m)$ intervals gives the stated count.
+
+Combining the two components, one fixes $g$ from the probabilistic construction, sets $n=N+K-1$ where $K$ is the number of nonzero coefficients of $g$, so that $D_n-g$ has exactly $N$ nonzero $0/1$ coefficients, and chooses $m=\lceil N^{2/3}(\log N)^{1/3}\rceil$, $L=\lfloor\log m\rfloor$. Then $n\asymp N$, $\lvert E(g)\rvert\ll\sqrt{(\log m)/m}$, and the deterministic count yields $Z(N)\ll n\sqrt{(\log m)/m}+m\ll N^{2/3}(\log N)^{1/3}$.
+
+\subsection*{Organisation}
+Section~2 records the Dirichlet reduction and introduces the small-band set. Section~3 describes the random block construction and establishes the exact block-sum identity and the length--energy estimate. Section~4 treats the resonance layer and the non-resonant phase average, from which the proportion of good triples and the abundance of large coefficients follow. Section~5 proves the weighted Littlewood--Offord inequality and deduces the pointwise small-ball bound, and Section~6 integrates it to bound $\mathbb{E}\lvert E(g)\rvert$ and to extract a deterministic $g$. Section~7 gives the deterministic zero count, and Section~8 balances the parameters, fixes the exact term count, and completes the proof of Theorem~\ref{thm:main}.
+
+\section{Preliminaries and the Dirichlet-kernel reduction}
+
+\subsection*{Notation and conventions}
+
+Throughout, $x$ denotes a real variable, and we write $s=s(x)=\sin(x/2)$. For real-valued quantities $f$ and $g\ge 0$ we write $f\ll g$ (Vinogradov) if $|f|\le C g$ for an absolute constant $C$, and $f\asymp g$ if $f\ll g\ll f$; all implied constants are absolute unless a dependence is indicated. The notation $O(g)$ carries the same meaning as $\ll g$. Logarithms are natural. For a set $S$ we write $|S|$ for its Lebesgue measure when $S\subseteq\mathbb{R}$ and for its cardinality when $S$ is finite; the two usages are always distinguished by context.
+
+For $L\ge 1$ we set
+\[
+A_L(x)=\min\{L,\,1/s\},\qquad \Delta(x)=\min\{Ls,\,1\},
+\]
+the natural block scale and its normalized companion; note $\Delta=Ls\,A_L$ when $s>0$, and $A_L$, $\Delta$ are used only for $0<x<2\pi$, where $s>0$.
+
+Given a real trigonometric polynomial $f$, its zeros are counted as \emph{distinct points}: $Z(f)$ denotes the number of distinct $x\in[0,2\pi)$ with $f(x)=0$. For $A\subseteq\mathbb{Z}_{\ge 0}$ with $|A|=N$ we write $F_A(x)=\sum_{a\in A}\cos(ax)$, and
+\[
+Z(N)=\min_{|A|=N} Z(F_A),
+\]
+the minimal number of distinct zeros in $[0,2\pi)$ over all frequency sets of cardinality $N$.
+
+\subsection*{The Dirichlet kernel and the reduction}
+
+Write
+\[
+D_n(x)=\sum_{k=0}^{n}\cos(kx)
+\]
+for the Dirichlet cosine kernel of order $n$.
+
+\begin{lemma}[Dirichlet identity]\label{lem:dirichlet}
+For every $x\notin 2\pi\mathbb{Z}$,
+\[
+D_n(x)=\frac{1}{2}+\frac{\sin\bigl((n+\tfrac12)x\bigr)}{2\sin(x/2)}.
+\]
+\end{lemma}
+
+\begin{proof}
+For each integer $k\ge 0$ the product-to-sum identity gives
+\[
+2\sin(x/2)\cos(kx)=\sin\bigl((k+\tfrac12)x\bigr)-\sin\bigl((k-\tfrac12)x\bigr).
+\]
+Summing over $k=0,1,\dots,n$, the right-hand side telescopes to
+\[
+2\sin(x/2)\,D_n(x)=\sin\bigl((n+\tfrac12)x\bigr)+\sin(x/2).
+\]
+For $x\notin 2\pi\mathbb{Z}$ we have $\sin(x/2)\neq 0$, and dividing by $2\sin(x/2)$ yields the stated identity.
+\end{proof}
+
+We now fix the objects that carry the reduction. Let $g$ be a cosine polynomial with coefficients in $\{0,1\}$ and degree at most $m$, and let $n>m$. Set
+\[
+M=n+\tfrac12,\qquad h(x)=2\sin(x/2)\bigl(g(x)-\tfrac12\bigr),
+\]
+so that $h$ is a real trigonometric polynomial with frequencies in $\tfrac12+\mathbb{Z}$; its top frequency does not exceed $m+\tfrac12$. Since $g(0)=|\{k:g_k=1\}|$ is finite and $\sin(0)=0$, we have $h(0)=0$.
+
+\begin{lemma}[Dirichlet-kernel reduction]\label{lem:reduction}
+Let $g$ be a $0/1$ cosine polynomial of degree at most $m$ and let $n>m$, with $M$ and $h$ as above. Then for every $x\in(0,2\pi)$,
+\[
+D_n(x)-g(x)=0\quad\Longleftrightarrow\quad \sin(Mx)=h(x).
+\]
+In particular, every zero of $D_n-g$ in $(0,2\pi)$ satisfies $|h(x)|\le 1$.
+\end{lemma}
+
+\begin{proof}
+Fix $x\in(0,2\pi)$, so that $x\notin 2\pi\mathbb{Z}$ and $\sin(x/2)\neq 0$. By Lemma~\ref{lem:dirichlet},
+\[
+D_n(x)-g(x)=\frac{\sin(Mx)}{2\sin(x/2)}+\tfrac12-g(x)
+=\frac{1}{2\sin(x/2)}\Bigl(\sin(Mx)-2\sin(x/2)\bigl(g(x)-\tfrac12\bigr)\Bigr)
+=\frac{\sin(Mx)-h(x)}{2\sin(x/2)}.
+\]
+As $2\sin(x/2)\neq 0$, the left-hand side vanishes precisely when $\sin(Mx)=h(x)$. The final assertion follows since $|\sin(Mx)|\le 1$.
+\end{proof}
+
+The equivalence localizes the analysis to the region where $\sin(Mx)$ can meet $h$. Accordingly we introduce the \emph{small-band set}
+\[
+E(g)=\{x\in(0,\pi):|h(x)|\le 1\}.
+\]
+By Lemma~\ref{lem:reduction}, membership in $E(g)$ is a \emph{necessary} condition for a point of $(0,\pi)$ to be a zero of $D_n-g$: no zero of $D_n-g$ occurs at a point of $(0,\pi)$ where $|h|>1$. We stress that this is a one-sided characterization; points of $E(g)$ need not be zeros, and the equivalence of Lemma~\ref{lem:reduction} is the tool by which zeros will later be counted.
+
+We confine $E(g)$ to the half-open half-period $(0,\pi)$. The kernel $D_n$ and any $0/1$ cosine polynomial $g$ are even and $2\pi$-periodic, so $D_n-g$ takes the same values at $x$ and at $2\pi-x$; this symmetry lets one pass from a count on $(0,\pi)$ to a count on the full period $[0,2\pi)$ at the cost of endpoint contributions only. We defer this full-period/half-period passage, together with the treatment of the endpoints $x\in\{0,\pi\}$, to the deterministic zero-counting section, where the number of zeros of $D_n-g$ is estimated from $|E(g)|$ and the analytic structure of $h$.
+
+\section{The random block construction}
+
+Fix a large integer $m$, and an integer $L$ with
+\[
+8 \le L \le m^{1/3}.
+\]
+Set
+\[
+q=\Big\lfloor \frac{m+1}{4L}\Big\rfloor,
+\]
+and partition the frequency axis into $q$ consecutive boxes, the $j$-th being the set of integers in the interval of length $4L$ beginning at $4Lj$, for $j\in\{0,\dots,q-1\}$. Within each box we select a random contiguous block of frequencies, as follows.
+
+For each $j\in\{0,\dots,q-1\}$, independently, let
+\[
+U_j\sim\mathrm{Unif}\{0,\dots,L-1\},\qquad R_j\sim\mathrm{Unif}\{L,\dots,2L-1\},
+\]
+and put
+\[
+I_j=\{4Lj+U_j,\ 4Lj+U_j+1,\ \dots,\ 4Lj+U_j+R_j-1\}.
+\]
+Thus $I_j$ is a block of $R_j$ consecutive integers starting at $4Lj+U_j$. Since
+\[
+U_j+R_j-1\le (L-1)+(2L-1)-1=3L-2<4L,
+\]
+the block $I_j$ is contained in the $j$-th box; in particular the blocks $I_0,\dots,I_{q-1}$ are pairwise disjoint. Finally let $\eta_0,\dots,\eta_{q-1}$ be independent $\mathrm{Bernoulli}(1/2)$ random variables, independent of the $U_j$ and $R_j$, and set
+\[
+g(x)=\sum_{j=0}^{q-1}\eta_j\sum_{k\in I_j}\cos(kx).
+\]
+
+\begin{lemma}\label{lem:coeffs-degree}
+The trigonometric polynomial $g$ has all coefficients in $\{0,1\}$, and $\deg g\le m$.
+\end{lemma}
+
+\begin{proof}
+The blocks $I_j$ are pairwise disjoint, so each frequency $k$ occurs in at most one inner sum; its coefficient is $\eta_j\in\{0,1\}$ when $k\in I_j$ and $0$ otherwise. For the degree, every frequency appearing in $g$ lies in some $I_j$, and the largest such frequency is at most the right endpoint of the last block $I_{q-1}$. That endpoint is bounded by
+\[
+4L(q-1)+U_{q-1}+R_{q-1}-1\le 4L(q-1)+(L-1)+(2L-1)-1=4Lq-L-3.
+\]
+By the definition of $q$ we have $4Lq\le m+1$, whence
+\[
+4Lq-L-3\le (m+1)-L-3=m-(L+2)\le m,
+\]
+using $L\ge 8$. Therefore $\deg g\le m$.
+\end{proof}
+
+It is convenient to record the contribution of a single contiguous block in closed form. For integers $j\ge 0$, $u\ge 0$ and $r\ge 1$ write
+\[
+b_{j,u,r}(x)=\sum_{k=4Lj+u}^{4Lj+u+r-1}\cos(kx),
+\]
+so that $g(x)=\sum_{j}\eta_j\,b_{j,U_j,R_j}(x)$. Throughout we abbreviate $s=\sin(x/2)$.
+
+\begin{lemma}[Exact block sum]\label{lem:block-sum}
+For $0<x<2\pi$ and all integers $j\ge 0$, $u\ge 0$, $r\ge 1$,
+\[
+2s\,b_{j,u,r}(x)=2\sin\!\Big(\frac{rx}{2}\Big)\cos\!\Big(4Ljx+\frac{(2u+r-1)x}{2}\Big).
+\]
+\end{lemma}
+
+\begin{proof}
+Write $a=4Lj+u$ for the initial frequency of the block. Summing the finite geometric series with ratio $e^{ix}\ne 1$,
+\[
+\sum_{k=a}^{a+r-1}e^{ikx}
+=e^{iax}\,\frac{e^{irx}-1}{e^{ix}-1}
+=e^{i(a+\frac{r-1}{2})x}\,\frac{\sin(rx/2)}{\sin(x/2)},
+\]
+where in the last step we have factored $e^{i r x/2}$ from the numerator and $e^{ix/2}$ from the denominator. Taking real parts and using $\sin(x/2)=s$,
+\[
+b_{j,u,r}(x)=\frac{\sin(rx/2)}{s}\,\cos\!\Big(\big(a+\tfrac{r-1}{2}\big)x\Big).
+\]
+Since $a+\tfrac{r-1}{2}=4Lj+u+\tfrac{r-1}{2}=4Lj+\tfrac{2u+r-1}{2}$, multiplying by $2s$ gives the stated identity.
+\end{proof}
+
+The factor $\sin(rx/2)$ in Lemma~\ref{lem:block-sum} varies over $r\in\{L,\dots,2L-1\}$, and its typical size fixes the natural scale of a block. Accordingly we introduce the \emph{block scale}
+\[
+A_L(x)=\min\Big\{L,\ \frac{1}{s}\Big\},
+\]
+which will govern the size of $|b_{j,u,r}(x)|$ for a positive proportion of blocks in the analysis that follows.
+
+\section{Block energy and non-resonance}
+
+Throughout this section we work on the half-period $(0,\pi)$ and write $s=\sin(x/2)$. Recall the natural block scale $A_L(x)=\min\{L,1/s\}$ and $\Delta(x)=\min\{Ls,1\}$. The two mechanisms developed here are complementary: a length--energy estimate showing that, on average over the admissible block lengths, a block carries energy comparable to $\Delta^2$, and a phase analysis showing that away from a small resonance layer the box centres are equidistributed enough to convert this energy into a genuine per-box contribution.
+
+\subsection{A length--energy estimate}
+
+\begin{lemma}[Contiguous block-length square-mean]\label{lem:length-energy}
+There is an absolute constant $c_A>0$ such that for all integers $L\ge 8$ and all $t$ with $0<t\le\pi/2$,
+\[
+\frac{1}{L}\sum_{r=L}^{2L-1}\sin^2(rt)\;\ge\;c_A\,\min\{(L\sin t)^2,\,1\}.
+\]
+One may take $c_A=10^{-3}$.
+\end{lemma}
+
+\begin{proof}
+Writing $\sin^2 y=\tfrac12(1-\cos 2y)$ and summing the resulting geometric progression of cosines over $r=L,\dots,2L-1$ gives the exact identity
+\begin{equation}\label{eq:le-identity}
+\frac{1}{L}\sum_{r=L}^{2L-1}\sin^2(rt)
+=\frac12-\frac{\sin(Lt)}{2L\sin t}\,\cos\bigl((3L-1)t\bigr).
+\end{equation}
+Indeed, $\sum_{r=L}^{2L-1}\cos(2rt)=\operatorname{Re}\sum_{r=L}^{2L-1}e^{2irt}$, and evaluating the finite geometric sum yields $\sum_{r=L}^{2L-1}\cos(2rt)=\dfrac{\sin(Lt)}{\sin t}\cos\bigl((3L-1)t\bigr)$, whence \eqref{eq:le-identity}.
+
+We distinguish three cases.
+
+\emph{Case $1$: $L\sin t\ge 2$.} Here $\min\{(L\sin t)^2,1\}=1$, and the second term in \eqref{eq:le-identity} is bounded in absolute value by $\dfrac{1}{2L\sin t}\le\dfrac14$. Hence the left-hand side of \eqref{eq:le-identity} is at least $\tfrac12-\tfrac14=\tfrac14\ge c_A$.
+
+In the remaining two cases $L\sin t<2$, so $\min\{(L\sin t)^2,1\}=(L\sin t)^2$. Since $\sin t\ge 2t/\pi$ on $(0,\pi/2]$, we have $Lt\le\tfrac{\pi}{2}L\sin t<\pi$.
+
+\emph{Case $2$: $Lt\le\pi/4$.} For each $r$ with $L\le r\le 2L-1$ we have $0<rt\le(2L-1)t<2Lt\le\pi/2$, so $\sin(rt)\ge 2rt/\pi\ge 2Lt/\pi$ by concavity of $\sin$ on $[0,\pi/2]$. Therefore
+\[
+\frac{1}{L}\sum_{r=L}^{2L-1}\sin^2(rt)\ge\frac{4}{\pi^2}L^2t^2\ge\frac{4}{\pi^2}(L\sin t)^2,
+\]
+using $\sin t\le t$.
+
+\emph{Case $3$: $\pi/4<Lt<\pi$.} We bound the second term of \eqref{eq:le-identity} through the quotient $\phi(t)=\sin(Lt)/(L\sin t)$, considered on $(0,\pi/L)$, where $\sin(Lt)>0$.
+
+We first show that $\phi$ is nonincreasing on $(0,\pi/L)$. Write $\phi(t)=\psi(Lt)/\psi(t)$, where $\psi(u)=\sin u/u$ for $u\ne 0$ and $\psi(0)=1$; indeed $\phi(t)=\dfrac{\sin(Lt)}{L\sin t}=\dfrac{\sin(Lt)/(Lt)}{\sin t/t}=\dfrac{\psi(Lt)}{\psi(t)}$. Taking logarithmic derivatives,
+\[
+\frac{\phi'(t)}{\phi(t)}=L\,\frac{\psi'(Lt)}{\psi(Lt)}-\frac{\psi'(t)}{\psi(t)}
+=\frac1t\Bigl(F(Lt)-F(t)\Bigr),\qquad F(u):=u\,\frac{\psi'(u)}{\psi(u)}=u\cot u-1 .
+\]
+The map $u\mapsto u\cot u$ is strictly decreasing on $(0,\pi)$, since its derivative is $\cot u-u\csc^2 u=(\sin u\cos u-u)/\sin^2 u<0$ there (as $\sin u\cos u=\tfrac12\sin 2u<u$ for $0<u<\pi$). Hence $F$ is strictly decreasing on $(0,\pi)$, and for $0<t<\pi/L$ we have $t<Lt<\pi$, so $F(Lt)<F(t)$ and $\phi'(t)\le 0$. Thus $\phi$ is nonincreasing on $(0,\pi/L)$, and for $t>\pi/(4L)$ (equivalently $Lt>\pi/4$),
+\[
+0\le\frac{\sin(Lt)}{L\sin t}=\phi(t)\le\phi\!\left(\tfrac{\pi}{4L}\right)=\frac{\sin(\pi/4)}{L\sin(\pi/(4L))} .
+\]
+
+It remains to bound the right-hand side uniformly for $L\ge 8$. Put $u=\pi/(4L)\in(0,\pi/32]$ and $G(L):=L\sin(\pi/(4L))=\tfrac{\pi}{4}\,\psi(u)$. Since $\psi(u)=\sin u/u$ is decreasing on $(0,\pi)$ and $u=\pi/(4L)$ decreases as $L$ increases, $\psi(u)$ increases with $L$; hence $G$ is increasing in $L$, and
+\[
+\frac{\sin(\pi/4)}{L\sin(\pi/(4L))}=\frac{\sin(\pi/4)}{G(L)}
+\quad\text{is \emph{decreasing} in }L .
+\]
+Its supremum over $L\ge 8$ is therefore attained at $L=8$, giving
+\[
+\frac{\sin(\pi/4)}{L\sin(\pi/(4L))}\le\frac{\sin(\pi/4)}{8\sin(\pi/32)}=0.90177\ldots<\cos(\pi/8)=0.92388\ldots \qquad(L\ge 8).
+\]
+(As $L\to\infty$ the quotient decreases to $\sin(\pi/4)/(\pi/4)=2\sqrt2/\pi=0.90031\ldots$, so the displayed bound is in fact uniform.) Consequently, for $\pi/4<Lt<\pi$ and $L\ge 8$,
+\[
+\frac{1}{L}\sum_{r=L}^{2L-1}\sin^2(rt)\ge\frac12-\frac12\cdot\frac{\sin(\pi/4)}{8\sin(\pi/32)}>\frac{1-\cos(\pi/8)}{2}>0.038.
+\]
+Since $L\sin t<2$ forces $(L\sin t)^2<4$, the bound $0.038>c_A\cdot 4$ holds for the value of $c_A$ below.
+
+Combining the three cases, the left-hand side is at least $\min\{\tfrac14,\ \tfrac{4}{\pi^2}(L\sin t)^2,\ 0.038\}$ in the respective regimes, and in each regime this exceeds $c_A\min\{(L\sin t)^2,1\}$ with $c_A=10^{-3}$.
+\end{proof}
+
+\subsection{The resonance layer}
+
+Fix $D=4$ and assume $q\ge 8$. The box centres are governed by the frequency $4L$, and we isolate the frequencies at which $\sin(4Lx)$ is too small to guarantee equidistribution of the box phases.
+
+\begin{definition}
+The \emph{resonance layer} is
+\[
+R=\{x\in[0,\pi]:\ |\sin(4Lx)|\le D/q\}.
+\]
+\end{definition}
+
+\begin{remark}
+The resonance layer must be discarded rather than controlled by a uniform per-block bound. A per-block lower bound carrying an arbitrary extra phase $\theta$ fails: at $\theta=\pi/2$ and $x\to 0$ with $Lx\to 0$ the block contribution is of order $(Lx)^4$, whereas the energy argument only guarantees an amount of order $(Lx)^2$. It is precisely this loss on $R$ that the phase average below avoids by excluding $R$.
+\end{remark}
+
+\begin{lemma}[Resonance measure]\label{lem:res-measure}
+For all $q\ge 1$,
+\[
+|R|=2\arcsin\bigl(\min\{1,D/q\}\bigr)\le \frac{\pi D}{q},
+\]
+and if $q\ge 2D$ then $|R|=2\arcsin(D/q)\le 4D/q$.
+\end{lemma}
+
+\begin{proof}
+As $x$ runs over $[0,\pi]$, the argument $y=4Lx$ runs over $[0,4L\pi]$, that is, over $4L$ full periods of $|\sin|$. Within a single period the set $\{|\sin y|\le\delta\}$ has measure $2\arcsin(\min\{1,\delta\})$; summing over the $4L$ periods and dividing by the Jacobian $4L$ shows that $\{x\in[0,\pi]:|\sin(4Lx)|\le\delta\}$ has measure $2\arcsin(\min\{1,\delta\})$, with $\delta=D/q$. The truncation $\min\{1,D/q\}$ is required because $2\arcsin(D/q)$ is only defined when $D/q\le 1$. Finally $\arcsin z\le\tfrac{\pi}{2}z$ for $0\le z\le 1$ gives the first bound, and $\arcsin z\le 2z$ for $0\le z\le\tfrac12$ gives the second when $q\ge 2D$.
+\end{proof}
+
+\begin{lemma}[Non-resonant phase average]\label{lem:phase-average}
+If $x\in[0,\pi]\setminus R$, then for every real $\alpha$,
+\[
+\frac{1}{q}\sum_{j=0}^{q-1}\cos^2(4Ljx+\alpha)\ \ge\ \frac{3}{8}.
+\]
+\end{lemma}
+
+\begin{proof}
+Using $\cos^2 y=\tfrac12(1+\cos 2y)$,
+\[
+\frac{1}{q}\sum_{j=0}^{q-1}\cos^2(4Ljx+\alpha)
+=\frac12+\frac{1}{2q}\operatorname{Re}\!\left(e^{2i\alpha}\sum_{j=0}^{q-1}e^{8iLjx}\right)
+=\frac12+\frac{1}{2q}\operatorname{Re}\!\left(e^{2i\alpha}\,\frac{1-e^{8iLqx}}{1-e^{8iLx}}\right).
+\]
+The geometric sum is bounded by $\bigl|1-e^{8iLqx}\bigr|/\bigl|1-e^{8iLx}\bigr|\le 1/|\sin(4Lx)|$. Since $x\notin R$ we have $|\sin(4Lx)|>D/q$, so the error term is at most
+\[
+\frac{1}{2q\,|\sin(4Lx)|}<\frac{1}{2D}=\frac18.
+\]
+Hence the average is at least $\tfrac12-\tfrac18=\tfrac38$.
+\end{proof}
+
+\section{Anti-concentration}
+
+Throughout this section we retain the notation of the preceding sections. In particular $s=\sin(x/2)$, $\Delta(x)=\min\{Ls,1\}$, $A_L(x)=\min\{L,1/s\}$, and $R=\{x\in[0,\pi]:|\sin(4Lx)|\le D/q\}$ with $D=4$ and $q\ge 8$. For a triple $(j,u,r)$ with $j\in\{0,\dots,q-1\}$, $u\in\{0,\dots,L-1\}$, $r\in\{L,\dots,2L-1\}$ we write
+\[
+Y_{j,u,r}(x)=2s\,b_{j,u,r}(x)=2\sin\!\Big(\tfrac{rx}{2}\Big)\cos\!\Big(4Ljx+\tfrac{(2u+r-1)x}{2}\Big),
+\]
+the last equality being the exact block-sum identity. The aim of the section is to show that, off the resonance layer $R$, the random polynomial $g$ concentrates in the small-band set $E(g)$ only on a set of small measure. This rests on four ingredients: a fixed proportion of triples on which $|b_{j,u,r}|$ is comparable to $A_L(x)$; an abundance of boxes carrying such a block after the random choice of geometry; a weighted Littlewood--Offord inequality with an arbitrary centre; and the resulting pointwise small-ball bound.
+
+\subsection{A fixed proportion of good triples}
+
+\begin{lemma}[Fixed proportion of good triples]\label{lem:good-triples}
+There exist absolute constants $c_1,\gamma>0$ such that for every $x\in(0,\pi)\setminus R$ at least a proportion $\gamma$ of the $qL^2$ triples $(j,u,r)$ satisfy
+\[
+|b_{j,u,r}(x)|\ \ge\ c_1\,A_L(x).
+\]
+\end{lemma}
+
+\begin{proof}
+Fix $x\in(0,\pi)\setminus R$ and write $t=x/2\in(0,\pi/2)$, so that $s=\sin t$ and $\Delta=\min\{Ls,1\}$.
+
+\emph{Second-moment lower bound.} By the block-sum identity,
+\[
+Y_{j,u,r}(x)^2=4\sin^2\!\Big(\tfrac{rx}{2}\Big)\cos^2\!\Big(4Ljx+\tfrac{(2u+r-1)x}{2}\Big).
+\]
+We average over the $qL^2$ triples. For fixed $r$, and as $j$ ranges over $\{0,\dots,q-1\}$ and $u$ over $\{0,\dots,L-1\}$, the phase $\alpha_{j,u}=4Ljx+\tfrac{(2u+r-1)x}{2}$ splits into a box part depending on $j$ and a shift depending on $u$. Averaging over $j$ first, the non-resonant phase average gives, for every real $\alpha$ and every $x\notin R$,
+\[
+\frac1q\sum_{j=0}^{q-1}\cos^2\!\big(4Ljx+\alpha\big)\ \ge\ \frac38 .
+\]
+Applying this with $\alpha=\tfrac{(2u+r-1)x}{2}$ for each fixed $u$ and $r$, and then averaging over $u\in\{0,\dots,L-1\}$ and $r\in\{L,\dots,2L-1\}$,
+\[
+\frac{1}{qL^2}\sum_{j,u,r}Y_{j,u,r}(x)^2
+\ \ge\ 4\cdot\frac38\cdot\frac1L\sum_{r=L}^{2L-1}\sin^2\!\Big(\tfrac{rx}{2}\Big).
+\]
+By the contiguous block-length square-mean lemma applied with $t=x/2$ (so that $L\sin t=Ls$),
+\[
+\frac1L\sum_{r=L}^{2L-1}\sin^2\!\Big(\tfrac{rx}{2}\Big)\ \ge\ c_A\min\{(Ls)^2,1\}=c_A\Delta^2 .
+\]
+Combining the two displays,
+\begin{equation}\label{eq:secondmoment}
+\frac{1}{qL^2}\sum_{j,u,r}Y_{j,u,r}(x)^2\ \ge\ 4\cdot\frac38\cdot c_A\Delta^2\ =\ c_0\Delta^2,
+\qquad c_0:=\tfrac32 c_A>0 .
+\end{equation}
+
+\emph{Uniform upper bound.} We claim that $|Y_{j,u,r}(x)|\le 4\Delta$ for every triple. Since the cosine factor in the block-sum identity is bounded by $1$,
+\[
+|Y_{j,u,r}(x)|\le 2\big|\sin(rx/2)\big|=2|\sin(rt)|.
+\]
+If $\Delta=1$ (that is, $Ls\ge 1$), then $|Y_{j,u,r}(x)|\le 2\le 4=4\Delta$. If $\Delta=Ls<1$, we use the elementary inequality
+\begin{equation}\label{eq:sinrt}
+|\sin(rt)|\le r\sin t\qquad(0\le t\le \tfrac\pi2,\ r\in\mathbb{Z}_{\ge0}).
+\end{equation}
+Inequality \eqref{eq:sinrt} follows by induction on $r$: it is trivial for $r=0$, and for $r\ge1$ the addition formula together with $|\cos|\le1$ and $\sin t\ge0$ gives
+\[
+|\sin(rt)|=|\sin((r-1)t)\cos t+\cos((r-1)t)\sin t|\le|\sin((r-1)t)|+\sin t\le (r-1)\sin t+\sin t=r\sin t .
+\]
+Since $r\le 2L-1<2L$, \eqref{eq:sinrt} yields $|\sin(rt)|\le 2Ls$, whence $|Y_{j,u,r}(x)|\le 2\cdot 2Ls=4Ls=4\Delta$. In either case
+\begin{equation}\label{eq:uniform}
+|Y_{j,u,r}(x)|\le 4\Delta .
+\end{equation}
+
+\emph{Paley--Zygmund-type deduction.} Set $a:=\sqrt{c_0/2}$ and let $\rho$ denote the proportion of triples with $|Y_{j,u,r}(x)|\ge a\Delta$. Splitting the average in \eqref{eq:secondmoment} according to whether $|Y_{j,u,r}|\ge a\Delta$ or not, and bounding the former group by the uniform estimate \eqref{eq:uniform} and the latter by $a\Delta$,
+\[
+c_0\Delta^2\ \le\ \frac{1}{qL^2}\sum_{j,u,r}Y_{j,u,r}^2\ \le\ \rho\,(4\Delta)^2+(1-\rho)\,(a\Delta)^2
+\ =\ 16\rho\,\Delta^2+(1-\rho)\,a^2\Delta^2 .
+\]
+Since $a^2=c_0/2$, this reads $c_0\Delta^2\le 16\rho\,\Delta^2+\tfrac{c_0}{2}(1-\rho)\Delta^2$. As $x\notin R\subset\{x:x\in(0,\pi)\}$ and $x\in(0,\pi)$ we have $\Delta>0$; dividing by $\Delta^2$ and rearranging,
+\[
+c_0-\tfrac{c_0}{2}\ \le\ \Big(16-\tfrac{c_0}{2}\Big)\rho,
+\qquad\text{hence}\qquad
+\rho\ \ge\ \frac{c_0/2}{16-c_0/2}\ =:\ \gamma\ >\ 0 .
+\]
+Finally, for each triple counted by $\rho$ we recover a lower bound for $|b_{j,u,r}|$ itself: from $|Y_{j,u,r}|=2s\,|b_{j,u,r}|\ge a\Delta$ and $\Delta/s=\min\{Ls,1\}/s=\min\{L,1/s\}=A_L(x)$,
+\[
+|b_{j,u,r}(x)|=\frac{|Y_{j,u,r}(x)|}{2s}\ \ge\ \frac{a}{2}\cdot\frac{\Delta}{s}\ =\ \frac a2\,A_L(x).
+\]
+Taking $c_1:=a/2$ completes the proof, with $\gamma=(c_0/2)/(16-c_0/2)$.
+\end{proof}
+
+\subsection{Abundance of good blocks}
+
+For the random construction, write $b_j(x)=b_{j,U_j,R_j}(x)$ for the block actually selected in box $j$, where $(U_j,R_j)$ are the independent uniform choices of the block geometry.
+
+\begin{lemma}[Abundance of good blocks]\label{lem:abundance}
+There exist absolute constants $c_2,c_3>0$ such that for every $x\in(0,\pi)\setminus R$,
+\[
+\Pr_{U,R}\Big(\#\{\,j:\ |b_j(x)|\ge c_1 A_L(x)\,\}<c_2 q\Big)\ \le\ e^{-c_3 q},
+\]
+where $c_1$ is the constant of Lemma~\textup{\ref{lem:good-triples}}.
+\end{lemma}
+
+\begin{proof}
+Fix $x\in(0,\pi)\setminus R$. For each box $j$ let $X_j$ be the indicator of the event $|b_j(x)|\ge c_1 A_L(x)$, and set $p_j=\mathbb{E}X_j=\Pr_{U_j,R_j}(|b_{j,U_j,R_j}(x)|\ge c_1 A_L(x))$. Since $(U_j,R_j)$ is uniform over the $L^2$ pairs $(u,r)$ in box $j$, $p_j$ equals the proportion of pairs $(u,r)$ for which $|b_{j,u,r}(x)|\ge c_1 A_L(x)$. Summing over $j$ and invoking Lemma~\ref{lem:good-triples}, which counts good triples over all boxes,
+\[
+\sum_{j=0}^{q-1}p_j\ =\ \frac{1}{L^2}\,\#\{(j,u,r):|b_{j,u,r}(x)|\ge c_1 A_L(x)\}\ \ge\ \frac{1}{L^2}\cdot\gamma qL^2\ =\ \gamma q .
+\]
+The variables $X_0,\dots,X_{q-1}$ are independent, being functions of the independent pairs $(U_j,R_j)$; they need not be identically distributed, and the argument below uses only independence.
+
+Let $S=\sum_{j}X_j$ and $\mu=\mathbb{E}S=\sum_j p_j\ge\gamma q$. For $\lambda>0$, by Markov's inequality applied to $e^{-\lambda S}$ and independence,
+\[
+\Pr\big(S\le \mu/2\big)=\Pr\big(e^{-\lambda S}\ge e^{-\lambda\mu/2}\big)
+\ \le\ e^{\lambda\mu/2}\,\mathbb{E}e^{-\lambda S}
+\ =\ e^{\lambda\mu/2}\prod_{j=0}^{q-1}\big(1-p_j+p_j e^{-\lambda}\big).
+\]
+Using $1-p_j+p_j e^{-\lambda}=1-(1-e^{-\lambda})p_j\le\exp\big(-(1-e^{-\lambda})p_j\big)$ and $\sum_j p_j=\mu$,
+\[
+\Pr\big(S\le\mu/2\big)\ \le\ \exp\!\Big(\tfrac{\lambda\mu}{2}-(1-e^{-\lambda})\mu\Big).
+\]
+Take $\lambda=\log 2$, so that $e^{-\lambda}=1/2$ and $1-e^{-\lambda}=1/2$, giving
+\[
+\Pr\big(S\le\mu/2\big)\ \le\ \exp\!\Big(\tfrac{\mu}{2}\log 2-\tfrac{\mu}{2}\Big)
+=\exp\!\Big(-\tfrac{\mu}{2}(1-\log 2)\Big)\ \le\ e^{-\mu/8},
+\]
+where we used $1-\log 2>1/4$. Since $\mu\ge\gamma q$, we obtain $\Pr(S\le\mu/2)\le e^{-\gamma q/8}$. Finally $c_2 q\le\mu/2$ because $\mu/2\ge\gamma q/2\ge (\gamma/8)q=c_2 q$, so
+\[
+\Pr\big(S<c_2 q\big)\ \le\ \Pr\big(S\le \mu/2\big)\ \le\ e^{-\gamma q/8}.
+\]
+Taking $c_2=c_3=\gamma/8$ proves the lemma.
+\end{proof}
+
+\subsection{A weighted Littlewood--Offord inequality}
+
+\begin{lemma}[Weighted Littlewood--Offord, arbitrary centre]\label{lem:LO}
+Let $\eta_1,\dots,\eta_r$ be independent $\mathrm{Bernoulli}(1/2)$ random variables and let $a_1,\dots,a_r$ be real weights with $|a_i|\ge a>0$. Then for every $t\in\mathbb{R}$ and every $w\ge0$,
+\[
+\Pr\Big(\Big|\sum_{i=1}^r \eta_i a_i-t\Big|\le w\Big)\ \le\ \frac{C\,(1+w/a)}{\sqrt r},
+\]
+with an absolute constant $C$.
+\end{lemma}
+
+\begin{proof}
+\emph{Sign reduction.} Suppose some $a_i<0$. Replacing $\eta_i$ by $1-\eta_i$ leaves the distribution of $\eta_i$ unchanged (it is $\mathrm{Bernoulli}(1/2)$), and changes the summand from $\eta_i a_i$ to $(1-\eta_i)a_i=a_i-\eta_i a_i=\eta_i(-a_i)+a_i$. Thus $\sum_i\eta_i a_i=\sum_i\eta_i a_i'+ \sum_{i:a_i<0}a_i$ in distribution, where $a_i'=|a_i|\ge a$. Absorbing the deterministic shift $\sum_{i:a_i<0}a_i$ into the centre $t$, we may and do assume $a_i\ge a>0$ for all $i$.
+
+\emph{Antichain from a half-open interval.} Encode a realization of $(\eta_1,\dots,\eta_r)$ by the subset $S=\{i:\eta_i=1\}\subseteq\{1,\dots,r\}$, so that $\sum_i\eta_i a_i=\sigma(S):=\sum_{i\in S}a_i$. Fix any half-open interval $J=[\beta,\beta+a)$ of length $a$. We claim the family
+\[
+\mathcal{F}_J=\{S\subseteq\{1,\dots,r\}:\sigma(S)\in J\}
+\]
+is an antichain under inclusion. Indeed, if $S\subsetneq T$ both lay in $J$, then $\sigma(T)-\sigma(S)=\sum_{i\in T\setminus S}a_i\ge a$ (the sum being over a nonempty set with each weight $\ge a$), so $\sigma(T)\ge\sigma(S)+a\ge\beta+a$, contradicting $\sigma(T)<\beta+a$. Hence no two distinct members of $\mathcal{F}_J$ are comparable. By Sperner's theorem, $|\mathcal{F}_J|\le\binom{r}{\lfloor r/2\rfloor}$, so
+\[
+\Pr\big(\sigma(S)\in J\big)=2^{-r}|\mathcal F_J|\ \le\ 2^{-r}\binom{r}{\lfloor r/2\rfloor}\ \le\ \frac{C}{\sqrt r},
+\]
+by the standard central binomial estimate $\binom{r}{\lfloor r/2\rfloor}\le C\,2^r/\sqrt r$.
+
+We stress that the interval must be half-open: for a closed interval of length $a$ the family need not be an antichain. Already for a single weight $a_1=a$ the interval $[0,a]$ contains both subset sums $\sigma(\varnothing)=0$ and $\sigma(\{1\})=a$, and $\varnothing\subsetneq\{1\}$, so these two comparable sets both lie in the closed interval.
+
+\emph{Covering the window.} The window $[t-w,t+w]$ has length $2w$ and can be covered by $\lceil 2w/a\rceil+1\le 2(1+w/a)$ half-open intervals of length $a$ together with a single endpoint singleton (a point has probability at most $C/\sqrt r$ of being hit, by the case $w=0$ of the antichain bound). By the union bound,
+\[
+\Pr\Big(\Big|\sum_i\eta_i a_i-t\Big|\le w\Big)\ \le\ \big(2(1+w/a)+1\big)\cdot\frac{C}{\sqrt r}\ \le\ \frac{C'(1+w/a)}{\sqrt r}.
+\]
+Renaming the constant proves the lemma.
+\end{proof}
+
+\subsection{Pointwise small-ball bound}
+
+Recall that $E(g)=\{x\in(0,\pi):|h(x)|\le1\}$ with $h(x)=2s(g(x)-\tfrac12)$, so that
+\[
+x\in E(g)\iff |2s\,g(x)-s|\le 1\iff \Big|\sum_{j=0}^{q-1}\eta_j\,b_j(x)-\tfrac1{2}\Big|\le\frac{1}{2s},
+\]
+after dividing by $2s>0$ and recalling $g(x)=\sum_j\eta_j b_j(x)$.
+
+\begin{corollary}[Pointwise small-ball]\label{cor:smallball}
+There are absolute constants $C,c>0$ such that for every fixed $x\in(0,\pi)\setminus R$,
+\[
+\Pr\big(x\in E(g)\big)\ \le\
+\begin{cases}
+C\min\Big\{1,\ (xL\sqrt q)^{-1}+q^{-1/2}\Big\}+e^{-cq}, & 0<x\le 1/L,\\[2mm]
+C\,q^{-1/2}+e^{-cq}, & 1/L<x<\pi.
+\end{cases}
+\]
+\end{corollary}
+
+\begin{proof}
+Fix $x\in(0,\pi)\setminus R$. Condition on the block geometry $(U_j,R_j)_{j}$, which determines the weights $b_j(x)$ but not the signs $\eta_j$; the latter remain independent $\mathrm{Bernoulli}(1/2)$ after conditioning. Let $\mathcal{G}$ denote the good event of Lemma~\ref{lem:abundance}, on which the set
+\[
+J=\{\,j:\ |b_j(x)|\ge c_1 A_L(x)\,\}
+\]
+has cardinality $|J|\ge c_2 q$. By Lemma~\ref{lem:abundance}, $\Pr(\mathcal{G}^c)\le e^{-c_3 q}$.
+
+On $\mathcal{G}$ we bound $\Pr(x\in E(g)\mid(U_j,R_j)_j)$ by conditioning further on the signs $\{\eta_j:j\notin J\}$. Writing
+\[
+\sum_{j=0}^{q-1}\eta_j b_j(x)-\frac1{2s}
+=\sum_{j\in J}\eta_j b_j(x)-\Big(\frac1{2s}-\sum_{j\notin J}\eta_j b_j(x)\Big),
+\]
+the second parenthesis is a constant, say $t=t\big((\eta_j)_{j\notin J}\big)$, once the outside signs are fixed. The remaining randomness is $\{\eta_j:j\in J\}$, independent $\mathrm{Bernoulli}(1/2)$, with weights $a_j=b_j(x)$ satisfying $|a_j|\ge c_1 A_L(x)=:a$. Applying Lemma~\ref{lem:LO} with $r=|J|\ge c_2 q$, centre $t$, and window $w=1/(2s)$,
+\[
+\Pr\Big(\Big|\sum_{j\in J}\eta_j b_j(x)-t\Big|\le \tfrac1{2s}\ \Big|\ (U_j,R_j)_j,\ (\eta_j)_{j\notin J}\Big)
+\ \le\ \frac{C\big(1+\tfrac{w}{a}\big)}{\sqrt{|J|}}
+\ \le\ \frac{C\big(1+\tfrac{w}{a}\big)}{\sqrt{c_2 q}} .
+\]
+Averaging over the outside signs preserves this bound, so on $\mathcal G$,
+\[
+\Pr\big(x\in E(g)\mid (U_j,R_j)_j\big)\ \le\ \frac{C}{\sqrt q}\Big(1+\frac{w}{a}\Big),
+\qquad w=\frac1{2s},\quad a=c_1 A_L(x).
+\]
+
+\emph{Window-to-scale ratio.} We estimate $w/a=(1/(2s))/(c_1\min\{L,1/s\})$. Recall the elementary bounds $x/\pi\le\sin(x/2)=s\le x/2$ for $0<x<\pi$.
+
+If $0<x\le 1/L$, then $s\le x/2\le 1/(2L)<1/L$, so $Ls<1$ and $\min\{L,1/s\}=L$. Hence
+\[
+\frac{w}{a}=\frac{1}{2s\,c_1 L}\ \le\ \frac{1}{2c_1 L}\cdot\frac{\pi}{x}\ =\ \frac{\pi}{2c_1}\cdot\frac{1}{Lx}\ \ll\ \frac{1}{Lx},
+\]
+using $s\ge x/\pi$. Consequently $1+w/a\ll 1+1/(Lx)$, and since $Lx\le1$ in this range the summand $1$ is $\ll 1/(Lx)$ as well; thus $1+w/a\ll 1/(Lx)$. Substituting,
+\[
+\Pr\big(x\in E(g)\mid(U_j,R_j)_j\big)\ \ll\ \frac{1}{\sqrt q}\cdot\frac{1}{Lx}\ =\ \frac{1}{xL\sqrt q}
+\qquad(0<x\le 1/L).
+\]
+
+If $1/L<x<\pi$, we distinguish two subcases according to the size of $s$ relative to $1/L$.
+\begin{itemize}
+\item If $s\le 1/L$, then $\min\{L,1/s\}=L$ and $w/a=1/(2c_1 Ls)$. From $s>x/\pi>1/(\pi L)$ (the first inequality by $s\ge x/\pi$ and $x>1/L$) we get $Ls>1/\pi$, hence $w/a\le \pi/(2c_1)\ll1$.
+\item If $s>1/L$, then $\min\{L,1/s\}=1/s$ and $w/a=1/(2c_1)\cdot s/1=s/(2c_1)\le 1/(2c_1)\ll1$, since $s\le1$.
+\end{itemize}
+In either subcase $w/a\ll1$, so $1+w/a\ll1$ and
+\[
+\Pr\big(x\in E(g)\mid(U_j,R_j)_j\big)\ \ll\ \frac{1}{\sqrt q}
+\qquad(1/L<x<\pi).
+\]
+
+\emph{Conclusion.} Combining the good-event bound with the bad event $\mathcal{G}^c$ of probability at most $e^{-c_3 q}$, and taking expectation over the geometry,
+\[
+\Pr\big(x\in E(g)\big)\ \le\ \Pr\big(x\in E(g)\mid\mathcal G\big)+\Pr(\mathcal G^c)
+\ \le\
+\begin{cases}
+\dfrac{C}{xL\sqrt q}+e^{-c_3 q}, & 0<x\le1/L,\\[2mm]
+\dfrac{C}{\sqrt q}+e^{-c_3 q}, & 1/L<x<\pi.
+\end{cases}
+\]
+In the range $0<x\le1/L$ the conditional Littlewood--Offord bound is also at most $C q^{-1/2}(1+w/a)$ with the trivial factor $1+w/a$, and re-inserting the additive $q^{-1/2}$ arising from the $+1$ in $1+w/a$ yields the stated form $C\min\{1,(xL\sqrt q)^{-1}+q^{-1/2}\}$; truncating every probability by $1$ and writing $c=c_3$ completes the proof.
+\end{proof}
+
+\section{The small-band measure estimate}
+
+Throughout this section $g$ denotes the random $0/1$ cosine polynomial of the block construction, of degree at most $m$, and $E(g)=\{x\in(0,\pi):|h(x)|\le 1\}$ is its small-band set, where $h(x)=2\sin(x/2)\,(g(x)-\tfrac12)$. We recall the parameters $8\le L\le m^{1/3}$ and $q=\lfloor (m+1)/(4L)\rfloor$, and the resonance layer $R=\{x\in[0,\pi]:|\sin(4Lx)|\le D/q\}$ with $D=4$; we assume $q\ge 8$, so that $q\ge 2D$.
+
+\begin{proposition}\label{prop:expected-measure}
+With the notation above,
+\[
+\mathbb{E}\,|E(g)|\;\ll\;\frac{1}{q}\;+\;\frac{\log q}{L\sqrt{q}}\;+\;\frac{1}{\sqrt{q}}.
+\]
+\end{proposition}
+
+\begin{proof}
+The indicator $\mathbf 1_{\{x\in E(g)\}}$ is jointly measurable and nonnegative in $x$ and in the randomness $(U_j,R_j,\eta_j)_j$, so Tonelli's theorem gives
+\[
+\mathbb{E}\,|E(g)|
+=\mathbb{E}\int_{0}^{\pi}\mathbf 1_{\{x\in E(g)\}}\,dx
+=\int_{0}^{\pi}\Pr\bigl(x\in E(g)\bigr)\,dx.
+\]
+We split the integral according to the resonance layer and, on its complement, according to the scale $x_{0}:=(L\sqrt q)^{-1}$.
+
+\emph{Contribution of the resonance layer.}
+On $R$ we use only the trivial bound $\Pr(x\in E(g))\le 1$. Since $q\ge 2D$, the resonance-measure lemma gives $|R|=2\arcsin(D/q)\le 4D/q$, whence
+\[
+\int_{R}\Pr\bigl(x\in E(g)\bigr)\,dx\;\le\;|R|\;\le\;\frac{4D}{q}\;\ll\;\frac{1}{q}.
+\]
+
+\emph{Contribution of the complement.}
+On $(0,\pi)\setminus R$ the pointwise small-ball corollary applies. For $1/L<x<\pi$ it yields $\Pr(x\in E(g))\le C q^{-1/2}+e^{-cq}$, and for $0<x\le 1/L$ it yields
+\[
+\Pr\bigl(x\in E(g)\bigr)\;\le\;C\min\Bigl\{1,\ (xL\sqrt q)^{-1}+q^{-1/2}\Bigr\}+e^{-cq}.
+\]
+We treat the three ranges $(0,x_{0}]$, $(x_{0},1/L)$ and $[1/L,\pi)$ separately; note that $x_0=(L\sqrt q)^{-1}\le 1/L$ since $q\ge 1$.
+
+On $(0,x_{0}]$ we bound $\Pr(x\in E(g))\le 1$ by the truncation in the corollary, so this range contributes at most
+\[
+x_{0}=\frac{1}{L\sqrt q}.
+\]
+
+On $(x_{0},1/L)$ we discard the exponential term and the additive $q^{-1/2}$ into the last two ranges below (they are integrated over an interval of length $<1/L\le 1$ and $<\pi$ respectively) and retain the dominant factor $(xL\sqrt q)^{-1}$. Since $x>x_{0}=(L\sqrt q)^{-1}$, we have $x L\sqrt q>1$, so $(xL\sqrt q)^{-1}<1$ and the truncation is inactive on this range. Hence
+\[
+\int_{x_{0}}^{1/L}\frac{C}{xL\sqrt q}\,dx
+=\frac{C}{L\sqrt q}\int_{x_{0}}^{1/L}\frac{dx}{x}
+=\frac{C}{L\sqrt q}\,\log\frac{1/L}{x_{0}}
+=\frac{C}{L\sqrt q}\,\log\bigl(\sqrt q\bigr)
+=\frac{C\log\sqrt q}{L\sqrt q},
+\]
+using $x_{0}^{-1}/L=\sqrt q$. This is $\ll (\log q)/(L\sqrt q)$.
+
+Finally, on $[1/L,\pi)$ the bound $\Pr(x\in E(g))\le Cq^{-1/2}+e^{-cq}$ integrates to at most
+\[
+(\pi-1/L)\bigl(Cq^{-1/2}+e^{-cq}\bigr)\;\ll\;\frac{1}{\sqrt q},
+\]
+since $e^{-cq}\le C q^{-1/2}$ for $q\ge 1$; the residual additive $q^{-1/2}$ and exponential terms retained from the range $(x_0,1/L)$ are of the same order and are absorbed here.
+
+Adding the four contributions gives
+\[
+\mathbb{E}\,|E(g)|\;\ll\;\frac{1}{q}+\frac{1}{L\sqrt q}+\frac{\log\sqrt q}{L\sqrt q}+\frac{1}{\sqrt q}
+\;\ll\;\frac{1}{q}+\frac{\log q}{L\sqrt q}+\frac{1}{\sqrt q},
+\]
+where the term $1/(L\sqrt q)$ from the range $(0,x_0]$ is absorbed into $(\log q)/(L\sqrt q)$. This is the asserted bound.
+\end{proof}
+
+\begin{corollary}\label{cor:existence-g}
+Suppose $q\asymp m/L$ and $L\asymp\log m$; concretely take $L=\lfloor\log m\rfloor$. Then there exists a deterministic $0/1$ cosine polynomial $g$ of degree at most $m$ with
+\[
+|E(g)|\;\ll\;\sqrt{\frac{\log m}{m}}.
+\]
+\end{corollary}
+
+\begin{proof}
+With $q\asymp m/L$ we have $\sqrt q\asymp\sqrt{m/L}$, and Proposition~\ref{prop:expected-measure} yields
+\[
+\mathbb{E}\,|E(g)|
+\;\ll\;\frac{L}{m}+\frac{\log(m/L)}{\sqrt{mL}}+\sqrt{\frac{L}{m}},
+\]
+where in the middle term $\log q\asymp\log(m/L)$ and $L\sqrt q\asymp L\sqrt{m/L}=\sqrt{mL}$.
+
+Take $L=\lfloor\log m\rfloor$, so $L\asymp\log m$. We bound each of the three terms by $C\sqrt{(\log m)/m}$.
+
+For the first term, $L/m\asymp(\log m)/m$, and since $(\log m)/m\le\sqrt{(\log m)/m}$ for $m\ge 1$, we have $L/m\ll\sqrt{(\log m)/m}$.
+
+For the third term, $\sqrt{L/m}\asymp\sqrt{(\log m)/m}$ directly.
+
+For the middle term, we use $L\asymp\log m$ to control the numerator: since $1\le L\le\log m$, we have $m/L\ge m/\log m$, and $\log(m/L)=\log m-\log L\le\log m$, while $\log(m/L)\ge\log m-\log\log m\asymp\log m$; thus $\log(m/L)\asymp\log m\asymp L$. Consequently
+\[
+\frac{\log(m/L)}{\sqrt{mL}}\;\asymp\;\frac{L}{\sqrt{mL}}\;=\;\sqrt{\frac{L}{m}}\;\asymp\;\sqrt{\frac{\log m}{m}}.
+\]
+Here the identification $\log(m/L)\asymp L$ is exactly what makes the middle term no larger than the third; without it the middle term would carry an extra logarithmic factor.
+
+Combining the three estimates gives $\mathbb{E}\,|E(g)|\ll\sqrt{(\log m)/m}$. Since $|E(g)|\ge 0$, the averaging principle furnishes at least one realization of the random construction such that $|E(g)|\ll \mathbb{E}\,|E(g)|$ ; the corresponding $g$ is a deterministic $0/1$ cosine polynomial of degree at most $m$ satisfying $|E(g)|\ll\sqrt{(\log m)/m}$.
+\end{proof}
+
+\section{Deterministic zero counting}
+
+Throughout this section $g$ denotes a $0/1$ cosine polynomial of degree at most $m$, and we fix an integer $n>m$. Write $M=n+\tfrac12$ and, following the Dirichlet reduction,
+\[
+  h(x)=2\sin(x/2)\bigl(g(x)-\tfrac12\bigr),
+\]
+so that for $x\notin 2\pi\mathbb Z$ the identity $D_n(x)-g(x)=0$ is equivalent to $\sin(Mx)=h(x)$. Recall the small-band set
+\[
+  E(g)=\{x\in(0,\pi):|h(x)|\le 1\}.
+\]
+Our aim is the bound $Z(D_n-g)\le C\bigl(n\,|E(g)|+m+1\bigr)$.
+
+We first record the elementary bound on the number of zeros of a trigonometric polynomial.
+
+\begin{lemma}[Zeros of a trigonometric polynomial]\label{lem:trigzeros}
+Let $P(x)=\sum_{\lvert k\rvert\le d}c_k e^{ikx}$ be a trigonometric polynomial with
+integer frequencies and complex coefficients, not identically zero. Then $P$ has at most
+$2d$ distinct zeros in any period of length $2\pi$. Likewise, if
+$P(x)=\sum_{\lvert k\rvert\le d}c_k e^{i(k+1/2)x}$ has half-integer frequencies (complex
+coefficients, not identically zero), then $P$ has at most $2d$ distinct zeros in any
+period of length $2\pi$.
+\end{lemma}
+
+\begin{proof}
+For the integer-frequency case set $z=e^{ix}$. Then
+$z^{d}P(x)=\sum_{\lvert k\rvert\le d}c_k z^{k+d}$ is a polynomial in $z$ of degree at
+most $2d$, not identically zero because the exponentials $e^{ikx}$ are linearly
+independent. As $x$ ranges over a period of length $2\pi$, $z$ ranges over the unit
+circle, so $P$ has at most $2d$ distinct zeros per period.
+
+For the half-integer case, factor out the common half-frequency and reindex by $j=k+d$:
+\[
+P(x)=e^{ix/2}\sum_{\lvert k\rvert\le d}c_k e^{ikx}
+     =e^{ix/2}\,w^{-d}\sum_{j=0}^{2d}c_{j-d}\,w^{j},
+\qquad w=e^{ix}.
+\]
+The factor $e^{ix/2}w^{-d}$ is nonzero on the unit circle, so the zeros of $P$
+correspond bijectively to the roots of the polynomial
+$\sum_{j=0}^{2d}c_{j-d}w^{j}$, of degree at most $2d$. As $x$ runs over a period of
+length $2\pi$, $w=e^{ix}$ runs once over the unit circle, so $P$ has at most $2d$
+distinct zeros per period.
+\end{proof}
+
+\begin{theorem}[Deterministic zero count]\label{thm:detcount}
+Let $g$ be a $0/1$ cosine polynomial of degree at most $m$, and let $n>m$. Then
+\[
+  Z(D_n-g)\le C\bigl(n\,|E(g)|+m+1\bigr),
+\]
+where $C$ is an absolute constant.
+\end{theorem}
+
+\begin{proof}
+Zeros of $D_n-g$ at points of $2\pi\mathbb Z$ contribute a bounded number and are absorbed into the constant, so it suffices to count zeros in $(0,2\pi)$. By the symmetry established at the end of the proof it is enough to count zeros in $(0,\pi)$ and then double the count, adding only a bounded number of endpoint contributions. On $(0,\pi)$ we have $\sin(x/2)>0$, so $D_n(x)-g(x)=0$ is equivalent to $\sin(Mx)=h(x)$. Since $|\sin(Mx)|\le1$, no such zero can occur where $|h(x)|>1$. Set
+\[
+  U=\{x\in(0,\pi):|h(x)|<1\}.
+\]
+We count the zeros lying in $U$, then account separately for the finitely many points where $|h(x)|=1$.
+
+\medskip
+\emph{Step 1: the number of components of $U$.}
+The function $h$ has half-integer frequencies with top frequency at most $m+\tfrac12$, since $g$ has degree at most $m$ and $h(x)=2\sin(x/2)(g(x)-\tfrac12)$. Hence $h^2$ is an integer-frequency trigonometric polynomial of degree at most $2m+1$, and so is $h^2-1$. It is not identically zero: $h(0)=0$, so $h^2-1$ takes the value $-1$ at $x=0$. By Lemma~\ref{lem:trigzeros} the equation $h(x)^2=1$ has at most $2(2m+1)=O(m+1)$ solutions in a period. The boundary of $U$ in $(0,\pi)$ consists of such points, so $U$ has at most $O(m+1)$ connected components, each an open subinterval of $(0,\pi)$.
+
+\medskip
+\emph{Step 2: the total variation of the arcsine.}
+On $U$ we have $|h|<1$, so
+\[
+  \alpha(x):=\arcsin h(x)\in\bigl(-\tfrac\pi2,\tfrac\pi2\bigr)
+\]
+is well defined and continuously differentiable. If $h'\equiv0$ then $h$ is constant, hence $h\equiv h(0)=0$ and $\alpha\equiv0$, so the conclusion of this step is immediate; assume therefore $h'\not\equiv0$. Now $h'$ is a half-integer-frequency trigonometric polynomial of degree $O(m)$, so by Lemma~\ref{lem:trigzeros} it has $O(m+1)$ zeros in a period. Subdivide $U$ at the boundary points of its components and at the zeros of $h'$; this partitions $U$ into $O(m+1)$ open intervals on each of which $h'$ has constant sign, so $h$ is strictly monotone. On such an interval $\alpha=\arcsin h$ is monotone with values in $(-\tfrac\pi2,\tfrac\pi2)$, hence has total variation at most $\pi$. Summing over the $O(m+1)$ intervals,
+\[
+  \operatorname{Var}_U(\alpha)=O(m+1).
+\]
+
+\medskip
+\emph{Step 3: the two lattice-hit families and the critical polynomial.}
+Fix a point $x\in U$ and write $\theta=\arcsin h(x)=\alpha(x)$, so $\sin\theta=h(x)$. The equation $\sin(Mx)=h(x)=\sin\theta$ holds if and only if
+\[
+  Mx\equiv\theta \pmod{2\pi}\qquad\text{or}\qquad Mx\equiv\pi-\theta\pmod{2\pi},
+\]
+that is, if and only if
+\[
+  \psi_-(x):=Mx-\alpha(x)\in 2\pi\mathbb Z
+  \qquad\text{or}\qquad
+  \psi_+(x):=Mx+\alpha(x)\in(2\mathbb Z+1)\pi.
+\]
+Thus every zero of $D_n-g$ in $U$ is a lattice hit of $\psi_-$ (into the lattice $2\pi\mathbb Z$) or of $\psi_+$ (into the shifted lattice $(2\mathbb Z+1)\pi$).
+
+We now locate the critical points of $\psi_\pm$. Since $\alpha=\arcsin h$, we have $\alpha'=h'/\sqrt{1-h^2}$ on $U$, and hence
+\[
+  \psi_\pm'(x)=M\pm\alpha'(x)=M\pm\frac{h'(x)}{\sqrt{1-h(x)^2}}.
+\]
+A point of $U$ is critical for $\psi_-$ or for $\psi_+$ exactly when $M\sqrt{1-h^2}=\pm h'$, equivalently when $M^2(1-h^2)=(h')^2$, that is when
+\[
+  P(x):=M^2\bigl(1-h(x)^2\bigr)-h'(x)^2=0.
+\]
+The function $P$ is an integer-frequency trigonometric polynomial of degree at most $2m+1$: indeed $h^2$ has degree at most $2m+1$, and $h'$ is half-integer of degree $O(m)$, so $(h')^2$ is integer-frequency of degree at most $2m+1$.
+
+We check $P\not\equiv0$ by evaluating at $x=0$. Differentiating $h(x)=2\sin(x/2)(g(x)-\tfrac12)$ and using $\sin0=0$, $\cos0=1$ gives
+\[
+  h'(0)=\cos(0)\,\bigl(g(0)-\tfrac12\bigr)=g(0)-\tfrac12.
+\]
+Since the coefficients of $g$ lie in $\{0,1\}$ and $g$ has degree at most $m$, we have $|g(0)-\tfrac12|\le m+\tfrac12$, whence
+\[
+  |h'(0)|=\bigl|g(0)-\tfrac12\bigr|\le m+\tfrac12<n+\tfrac12=M,
+\]
+the strict inequality being exactly the hypothesis $n>m$. With $h(0)=0$ this yields
+\[
+  P(0)=M^2\cdot 1-h'(0)^2=M^2-h'(0)^2>0,
+\]
+so $P\not\equiv0$. By Lemma~\ref{lem:trigzeros}, the equation $P=0$ has at most $2(2m+1)=O(m+1)$ solutions in a period.
+
+\medskip
+\emph{Step 4: monotone lattice-hit counting.}
+A strictly monotone continuously differentiable function meets any arithmetic lattice of spacing $2\pi$ at most $1+\operatorname{Var}/(2\pi)$ times, where $\operatorname{Var}$ is its total variation across the interval of monotonicity; the same holds for the shifted lattice $(2\mathbb Z+1)\pi$ of spacing $2\pi$. Subdivide $U$ at the boundary points of its components and at the zeros of $P$. By Step~3 this produces $O(m+1)$ open subintervals, and on each of them $P$ has constant sign, so neither $\psi_-$ nor $\psi_+$ has an interior critical point there; consequently each of $\psi_-$ and $\psi_+$ is strictly monotone on each subinterval.
+
+On a single such subinterval $I$, the number of hits of $\psi_-$ into $2\pi\mathbb Z$ is at most $1+\operatorname{Var}_I(\psi_-)/(2\pi)$, and likewise for $\psi_+$ into $(2\mathbb Z+1)\pi$. Summing over the $O(m+1)$ subintervals, the number of zeros of $D_n-g$ in $U$ is at most
+\[
+  O(m+1)+\frac{\operatorname{Var}_U(\psi_-)+\operatorname{Var}_U(\psi_+)}{2\pi}.
+\]
+Since $\psi_\pm(x)=Mx\pm\alpha(x)$ and $x\mapsto Mx$ has variation $M|U|$ over the (open) set $U$ of total length $|U|$, we obtain
+\[
+  \operatorname{Var}_U(\psi_\pm)\le M|U|+\operatorname{Var}_U(\alpha)=M|U|+O(m+1)
+\]
+by Step~2. As $M=n+\tfrac12\le n+1$, it follows that the number of zeros of $D_n-g$ in $U\cap(0,\pi)$ is at most
+\[
+  C\bigl(n\,|U|+m+1\bigr).
+\]
+The boundary set $\{x\in(0,\pi):|h(x)|=1\}$ has $O(m+1)$ points by Step~1, and no zero occurs where $|h|>1$; these boundary points contribute at most $O(m+1)$ further zeros. Hence the number of zeros of $D_n-g$ in $(0,\pi)$ is at most $C(n|U|+m+1)$.
+
+Finally, since $D_n(x)$ and $g(x)$ are cosine polynomials, both are invariant under $x\mapsto 2\pi-x$, so $D_n(2\pi-x)-g(2\pi-x)=D_n(x)-g(x)$. Thus the zeros in $(\pi,2\pi)$ are the reflections of those in $(0,\pi)$, and the count over $(0,2\pi)$ is at most twice the count over $(0,\pi)$, plus a bounded contribution from $x=\pi$ and the endpoints. Finally, $U$ and $E(g)$ differ only by the finitely many boundary points where $|h|=1$, so $|U|=|E(g)|$. Combining the above,
+\[
+  Z(D_n-g)\le C\bigl(n\,|E(g)|+m+1\bigr),
+\]
+as claimed.
+\end{proof}
+
+\begin{remark}
+The hypothesis $n>m$ is essential. If $n=m$ one may take $g=D_m$, and then $D_n-g\equiv0$, so the notion of zero count is vacuous; correspondingly the strict inequality $|h'(0)|\le m+\tfrac12<M$ used to guarantee $P\not\equiv0$ in Step~3 fails at $n=m$.
+\end{remark}
+
+\section{Proof of the main theorem}
+
+We assemble the constructions of the previous sections into a bound on $Z(N)$. Throughout, $g$ denotes a fixed $0/1$ cosine polynomial furnished by the existence corollary, of degree at most $m$ and with small-band measure $\lvert E(g)\rvert \ll \sqrt{\log m / m}$.
+
+\subsection*{The exact term count}
+
+Let $K$ be the number of coefficients of $g$ equal to $1$; equivalently, $K=\sum_{j=0}^{q-1}\eta_j R_j$ is the total length of the selected blocks. Each block $I_j$ has length $R_j\le 2L-1<2L$, and the blocks are pairwise disjoint, so
+\[
+0\le K\le \sum_{j=0}^{q-1} R_j < 2Lq \le 2L\cdot\frac{m+1}{4L}=\frac{m+1}{2}.
+\]
+Thus $0\le K\le (m+1)/2$.
+
+Given the target $N$, set
+\[
+n=N+K-1.
+\]
+The polynomial $g$ is supported in $\{0,\dots,m\}$ with all coefficients in $\{0,1\}$, and we shall verify below that $n>m$. Granting this, the frequencies of $g$ all lie in $\{0,\dots,m\}\subseteq\{0,\dots,n\}$, and $D_n$ contributes the coefficient $1$ at each frequency $0,\dots,n$. Hence $D_n-g$ has all coefficients in $\{0,1\}$, and the number of nonzero coefficients is
+\[
+(n+1)-K=(N+K)-K=N.
+\]
+Writing $D_n-g=\sum_{a\in A}\cos(ax)$ with $A\subseteq\mathbb Z_{\ge 0}$ and $\lvert A\rvert=N$, we conclude that
+\[
+Z(N)\le Z(D_n-g).
+\]
+
+\subsection*{Choice of parameters}
+
+Fix
+\[
+m=\big\lceil N^{2/3}(\log N)^{1/3}\big\rceil,\qquad L=\lfloor\log m\rfloor .
+\]
+As $N\to\infty$,
+\[
+\frac{m}{N}=N^{-1/3}(\log N)^{1/3}\,(1+o(1))\longrightarrow 0,
+\]
+so for all sufficiently large $N$ we have $m<N-1$. Since $K\ge 0$,
+\[
+n=N+K-1\ge N-1>m,
+\]
+which confirms the hypothesis $n>m$ needed above (and, in particular, that $D_n-g$ is not identically zero). On the other hand $K\le (m+1)/2\le N$ for large $N$, whence
+\[
+n=N+K-1\le N+\frac{m+1}{2}-1\le 2N.
+\]
+Thus $n\asymp N$.
+
+The chosen $L$ satisfies $8\le L\le m^{1/3}$ for large $N$, so the construction of the random block polynomial applies with $q=\lfloor (m+1)/(4L)\rfloor\asymp m/L$; in particular $L\asymp\log m$, and the existence corollary yields a deterministic $g$ with
+\[
+\lvert E(g)\rvert\ll\sqrt{\frac{\log m}{m}}.
+\]
+
+\subsection*{Conclusion}
+
+Apply the deterministic zero-counting theorem with this $g$ and with $n>m$, $n\asymp N$. It gives
+\[
+Z(D_n-g)\le C\big(n\lvert E(g)\rvert+m+1\big)\ll n\sqrt{\frac{\log m}{m}}+m+1.
+\]
+Since $n\asymp N$ and $m\asymp N^{2/3}(\log N)^{1/3}$, the first term is
+\[
+n\sqrt{\frac{\log m}{m}}\ll N\cdot\left(\frac{\log m}{m}\right)^{1/2}.
+\]
+Here $\log m\asymp\log N$ and $m\asymp N^{2/3}(\log N)^{1/3}$, so
+\[
+\frac{\log m}{m}\asymp\frac{\log N}{N^{2/3}(\log N)^{1/3}}=\frac{(\log N)^{2/3}}{N^{2/3}},
+\]
+and therefore
+\[
+N\left(\frac{\log m}{m}\right)^{1/2}\asymp N\cdot\frac{(\log N)^{1/3}}{N^{1/3}}=N^{2/3}(\log N)^{1/3}.
+\]
+The remaining term satisfies $m+1\ll N^{2/3}(\log N)^{1/3}$ by the choice of $m$. Combining,
+\[
+Z(N)\le Z(D_n-g)\ll N^{2/3}(\log N)^{1/3}.
+\]
+This holds for all sufficiently large $N$, which is precisely the assertion of Theorem~1. \qed
+
+\section{Concluding remarks}
+
+The bound of Theorem~1 improves the previous estimate $Z(N)\ll N^{2/3}(\log N)^{2/3}$ by a factor $(\log N)^{1/3}$. The saving originates in the balance between the two terms of the deterministic count $C\big(n\lvert E(g)\rvert+m+1\big)$: the degree $m$ is optimized against the expected small-band measure $\lvert E(g)\rvert$, and the logarithmic factor in the latter is what the block length $L\asymp\log m$ is tuned to control.
+
+Two features of the argument delimit its reach. First, the small-ball input is a Littlewood--Offord bound of order $r^{-1/2}$ in the effective number $r\asymp c_2 q$ of good blocks; this square-root barrier propagates into the $q^{-1/2}$ term of the pointwise estimate and, after integration, into the exponent $2/3$. Any improvement of the exponent would seem to require either a stronger anticoncentration estimate exploiting the arithmetic of the frequency blocks, or a construction in which the good weights are more uniform in size. Second, the resonance layer $R$, though of negligible measure $O(1/q)$, must be excised because the per-block lower bound degenerates near the resonant frequencies; a treatment retaining $R$ would need a genuinely different lower bound there.
+
+It remains open whether the true order of $Z(N)$ is $N^{2/3}$ up to a power of $\log N$, or whether the logarithmic factor can be removed entirely. A matching lower bound of the form $Z(N)\gg N^{2/3}$ is not known, and the gap between the constructions above and the best available lower bounds is the natural focus for further work.
+
+\begin{thebibliography}{9}
+% Do NOT fabricate bibliographic data. The following entries are required
+% but their bibliographic details must be verified before submission.
+\bibitem{BEFL}
+P.~Borwein, T.~Erd\'elyi, R.~Ferguson, and R.~Lockhart,
+\textit{On the zeros of cosine polynomials: solution to a problem of Littlewood},
+Ann.\ of Math.\ (2) \textbf{167} (2008), no.~3, 1109--1117.
+\bibitem{ErdelyiQual}
+T.~Erd\'elyi,
+\textit{The number of unimodular zeros of self-reciprocal polynomials with coefficients in a finite set},
+Acta Arith.\ \textbf{176} (2016), 177--200.
+\bibitem{Sahasrabudhe}
+J.~Sahasrabudhe,
+\textit{Counting zeros of cosine polynomials: on a problem of Littlewood},
+Adv.\ Math.\ \textbf{343} (2019), 495--521.
+\bibitem{ErdelyiImproved}
+T.~Erd\'elyi,
+\textit{Improved lower bound for the number of unimodular zeros of self-reciprocal polynomials with coefficients in a finite set},
+Acta Arith.\ \textbf{192} (2020), 189--210.
+\bibitem{Konyagin}
+S.~V.~Konyagin,
+\textit{On zeros of sums of cosines},
+Mat.\ Zametki \textbf{108} (2020), no.~4, 547--551;
+English transl., Math.\ Notes \textbf{108} (2020), no.~4, 538--541.
+\bibitem{JS}
+T.~Ju\v{s}kevi\v{c}ius and J.~Sahasrabudhe,
+\textit{Cosine polynomials with few zeros},
+Bull.\ Lond.\ Math.\ Soc.\ \textbf{53} (2021), no.~3, 877--892.
+\bibitem{lower}
+B.~Bedert,
+\textit{An improved lower bound for a problem of Littlewood on the zeros of cosine polynomials},
+Israel J.\ Math.\ (2025), published online 30 Nov 2025.
+DOI: \texttt{10.1007/s11856-025-2872-5}
+\end{thebibliography}
+
+\end{document}
